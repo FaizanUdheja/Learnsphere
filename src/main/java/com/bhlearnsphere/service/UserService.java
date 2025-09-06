@@ -4,6 +4,7 @@ import com.bhlearnsphere.dto.*;
 import com.bhlearnsphere.entity.*;
 import com.bhlearnsphere.repository.*;
 import com.bhlearnsphere.helper.Role;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,8 @@ public class UserService {
         User savedUser = userRepository.save(user);
         return convertToDto(savedUser);
     }
-
+    
+    @Transactional
     public UserDto login(String email, String password) {
         User user = userRepository.findByEmailWithBadges(email)
            .orElseThrow(() -> new RuntimeException("Invalid credentials"));
